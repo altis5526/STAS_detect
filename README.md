@@ -47,6 +47,18 @@ python train_swin.py
 * `--resize` (str): 選擇resize大小，只有900、850兩種選擇(預設為"850")
 * `--epochs` (int): 選擇epoch的大小(預設為40)
 
+### 測試並產生json檔結果
+```
+python test_swin.py
+```
+* `--resize` (str): 選擇resize大小，只有900、850兩種選擇(預設為"850")
+* `--epochs` (int): 選擇epoch的大小(預設為40)
+* `--batch_size` (str): 選擇batch size的大小(預設為32)
+* `--checkpoint` (str): 輸入checkpoint路徑位置(checkpoint即為訓練時擁有最高AP50的權重)
+* `--save_vis` (str): 輸入資料夾名稱以儲存畫出bounding box的圖片結果(預設為"result")
+* `--output` (str): 輸出json檔的檔名(預設為"result.json")
+
+
 
          
      
