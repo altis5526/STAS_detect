@@ -65,7 +65,7 @@ python test_swin.py
 python wbf.py
 ```
 * `--json_dir` (str): 選擇原本5次使用不同validation set得到的json測試結果的資料夾 (預設為"./label")
-* `--output` (str): 輸出ensemble結果的json檔名 (預設為"")
+* `--output` (str): 輸出ensemble結果的json檔名 (預設為"ensemble.json")
 
 
 ### 參考資料
