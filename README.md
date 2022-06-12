@@ -59,6 +59,14 @@ python test_swin.py
 * `--save_vis` (str): 輸入資料夾名稱以儲存畫出bounding box的圖片結果(預設為"result")
 * `--output` (str): 輸出json檔的檔名(預設為"result.json")
 
+### Ensemble
+```
+python wbf.py
+```
+* `--json_dir` (str): 選擇原本5次使用不同validation set得到的json測試結果的資料夾 (預設為"./label")
+* `--output` (str): 輸出ensemble結果的json檔名 (預設為"")
+
+
 
 
          
