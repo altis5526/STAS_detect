@@ -1,4 +1,6 @@
--r requirements/build.txt
--r requirements/optional.txt
--r requirements/runtime.txt
--r requirements/tests.txt
+yapf==0.32.0
+timm==0.5.4
+opencv-python==4.5.5.64
+bbox-visualizer==0.1.0
+addict==2.4.0
+tqdm==4.62.1
