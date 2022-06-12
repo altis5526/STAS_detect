@@ -38,6 +38,26 @@ STAS_detect
              |(放所有的測試圖片檔)
          
 ```
+### 開始訓練
+```
+python train_swin.py
+```
+* `--id` (int): 選擇使用哪一個子資料集當成驗證資料集(預設為0)
+* `--save_dir` (str): 輸入儲存weight和訓練過程的資料夾(預設為"stas_swin")
+* `--resize` (str): 選擇resize大小，只有900、850兩種選擇(預設為"850")
+* `--epochs` (int): 選擇epoch的大小(預設為40)
+
+### 測試並產生json檔結果
+```
+python test_swin.py
+```
+* `--resize` (str): 選擇resize大小，只有900、850兩種選擇(預設為"850")
+* `--epochs` (int): 選擇epoch的大小(預設為40)
+* `--batch_size` (str): 選擇batch size的大小(預設為32)
+* `--checkpoint` (str): 輸入checkpoint路徑位置(checkpoint即為訓練時擁有最高AP50的權重)
+* `--save_vis` (str): 輸入資料夾名稱以儲存畫出bounding box的圖片結果(預設為"result")
+* `--output` (str): 輸出json檔的檔名(預設為"result.json")
+
 
 
          
