@@ -111,7 +111,7 @@ def procedure(args):
     cfg.seed = 0
     set_random_seed(0, deterministic=False)
     cfg.gpu_ids = [0]
-    cfg.runner.max_epochs=30
+    cfg.runner.max_epochs=args.epochs
     cfg.device='cuda'
 
     # We can initialize the logger for training and have a look
@@ -138,5 +138,6 @@ if __name__ == '__main__':
     parser.add_argument("--id", type=int, default=0)
     parser.add_argument("--save_dir", type=str, default="stas_swin")
     parser.add_argument("--resize", type=str, default="850")
+    parser.add_argument("--epochs", type=int, default=40)
     args = parser.parse_args()
     procedure(args)

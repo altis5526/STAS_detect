@@ -19,6 +19,7 @@ from mmdet.datasets import build_dataset
 from mmdet.models import build_detector
 from mmdet.apis import train_detector
 from mmcv_custom.checkpoint import load_checkpoint, load_state_dict
+import argparse
 
 """創建資料集"""
 @DATASETS.register_module()
@@ -63,7 +64,7 @@ class STASDataset(CustomDataset):
         return data_infos
 
 """設定config"""
-def procedure(test_batch_size=256, id=0):
+def procedure(args):
     cfg = Config.fromfile('./configs/swin/cascade_base_900.py')
 
 
@@ -73,17 +74,17 @@ def procedure(test_batch_size=256, id=0):
 
     cfg.data.test.type = 'STASDataset'
     cfg.data.test.data_root = 'STAS_dataset/'
-    cfg.data.test.ann_file = f'train{id}.txt'
+    cfg.data.test.ann_file = f'train{args.id}.txt'
     cfg.data.test.img_prefix = 'training/Train_Images'
 
     cfg.data.train.type = 'STASDataset'
     cfg.data.train.data_root = 'STAS_dataset/'
-    cfg.data.train.ann_file = f'train{id}.txt'
+    cfg.data.train.ann_file = f'train{args.id}.txt'
     cfg.data.train.img_prefix = 'training/Train_Images'
 
     cfg.data.val.type = 'STASDataset'
     cfg.data.val.data_root = 'STAS_dataset/'
-    cfg.data.val.ann_file = f'valid{id}.txt'
+    cfg.data.val.ann_file = f'valid{args.id}.txt'
     cfg.data.val.img_prefix = 'training/Train_Images'
 
     # We can still use the pre-trained Mask RCNN model though we do not need to
@@ -91,7 +92,7 @@ def procedure(test_batch_size=256, id=0):
     # cfg.load_from = 'checkpoints/cascade_mask_rcnn_swin_base_patch4_window7.pth'
 
     # Set up working dir to save files and logs.
-    cfg.work_dir = f'./stas_base{id}'
+    cfg.work_dir = f'./stas_base{args.id}'
 
     # The original learning rate (LR) is set for 8-GPU training.
     # We divide it by 8 since we only use one GPU.
@@ -110,7 +111,7 @@ def procedure(test_batch_size=256, id=0):
     cfg.seed = 0
     set_random_seed(0, deterministic=False)
     cfg.gpu_ids = [0]
-    cfg.data.samples_per_gpu = test_batch_size
+    cfg.data.samples_per_gpu = args.batch_size
     cfg.runner.max_epochs=30
     cfg.device='cuda'
 
@@ -135,12 +136,7 @@ def procedure(test_batch_size=256, id=0):
 
     return model, cfg
 
-if __name__ == '__main__':
-    
-    test_batch_size = 32
-
-    model, cfg = procedure(test_batch_size = test_batch_size)
-
+def testing(args):
     """testing"""
     model.cfg = cfg
     dir = "./STAS_dataset/Test_Images"
@@ -153,27 +149,24 @@ if __name__ == '__main__':
     file_name_list = []
     image_count = 0
 
-    
-
     for file in files:
         print(file)
         file_name = os.path.join(dir, file)
         img = mmcv.imread(file_name)
         images.append(img)
         file_name_list.append(file)
-        if ((image_count % test_batch_size) == (test_batch_size - 1)) or file == files[len(files) - 1]:
+        if ((image_count % args.batch_size) == (args.batch_size - 1)) or file == files[len(files) - 1]:
             results = inference_detector(model, images)
             for i in range(len(results)):
-                true_image_count = test_batch_size * (image_count // test_batch_size) + i
+                true_image_count = args.batch_size * (image_count // args.batch_size) + i
                 print(true_image_count)
                 detect_flag = 0
                 count_stas = 0
                 temp = list(results[i][0])
                 bboxs = [[int(item) for item in L][:4] for L in temp]
                 print(file_name_list[true_image_count])
-                print(len(images))
 
-                cv2.imwrite(f"result/{file_name_list[true_image_count]}", bbv.draw_multiple_rectangles(images[i], bboxs, (0,0,0)))
+                cv2.imwrite(f"{args.save_vis}/{file_name_list[true_image_count]}", bbv.draw_multiple_rectangles(images[i], bboxs, (0,0,0)))
                 for stas in results[i][0]:
                     xmin = int(stas[0])
                     ymin = int(stas[1])
@@ -206,5 +199,22 @@ if __name__ == '__main__':
         image_count += 1
             
     json_object = json.dumps(dictionary)
-    with open ("result_draw_bounding_box.json", 'w') as j:
+    with open (args.output, 'w') as j:
         j.write(json_object)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--id", type=int, default=0)
+    parser.add_argument("--save_dir", type=str, default="stas_swin")
+    parser.add_argument("--resize", type=str, default="850")
+    parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--checkpoint", type=str, default=None)
+    parser.add_argument("--save_vis", type=str, default="result")
+    parser.add_argument("--output", type=str, default="result.json")
+    args = parser.parse_args()
+
+    model, cfg = procedure(args)
+    testing(args)
+
+    
