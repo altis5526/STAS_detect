@@ -2,13 +2,15 @@
 2022年AICUP肺腺癌病理切片影像之腫瘤氣道擴散偵測競賽 I：運用物體偵測作法於找尋STAS - 第TEAM_1355組
 
 ## 安裝設定與環境版本 (linux)
+### 環境
 * python == 3.8
-* yapf==0.32.0
-* timm==0.5.4
-* opencv-python==4.5.5.64
-* bbox-visualizer==0.1.0
-* addict==2.4.0
-* tqdm==4.62.1
+* pytorch == 1.10.0
+* CUDA == 11.4
+
+### 套件
+```
+pip install -r requirements.txt
+```
 
 ### 安裝MMCV
 ```
