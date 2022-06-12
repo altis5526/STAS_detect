@@ -8,6 +8,7 @@
 * opencv-python==4.5.5.64
 * bbox-visualizer==0.1.0
 * addict==2.4.0
+* tqdm==4.62.1
 
 ### 安裝MMCV
 ```
