@@ -19,6 +19,7 @@ from mmdet.datasets import build_dataset
 from mmdet.models import build_detector
 from mmdet.apis import train_detector
 from mmcv_custom.checkpoint import load_checkpoint, load_state_dict
+import argparse
 
 """創建資料集"""
 @DATASETS.register_module()
@@ -63,8 +64,8 @@ class STASDataset(CustomDataset):
         return data_infos
 
 """設定config"""
-def procedure(id=0):
-    cfg = Config.fromfile('./configs/swin/cascade_base_900.py')
+def procedure(args):
+    cfg = Config.fromfile(f'./configs/swin/cascade_base_{args.resize}.py')
 
 
     # Modify dataset type and path
@@ -73,17 +74,17 @@ def procedure(id=0):
 
     cfg.data.test.type = 'STASDataset'
     cfg.data.test.data_root = 'STAS_dataset/'
-    cfg.data.test.ann_file = f'train{id}.txt'
+    cfg.data.test.ann_file = f'train{args.id}.txt'
     cfg.data.test.img_prefix = 'training/Train_Images'
 
     cfg.data.train.type = 'STASDataset'
     cfg.data.train.data_root = 'STAS_dataset/'
-    cfg.data.train.ann_file = f'train{id}.txt'
+    cfg.data.train.ann_file = f'train{args.id}.txt'
     cfg.data.train.img_prefix = 'training/Train_Images'
 
     cfg.data.val.type = 'STASDataset'
     cfg.data.val.data_root = 'STAS_dataset/'
-    cfg.data.val.ann_file = f'valid{id}.txt'
+    cfg.data.val.ann_file = f'valid{args.id}.txt'
     cfg.data.val.img_prefix = 'training/Train_Images'
 
     # We can still use the pre-trained Mask RCNN model though we do not need to
@@ -91,7 +92,7 @@ def procedure(id=0):
     # cfg.load_from = f'./stas_base_resize{id}/epoch_21.pth'
 
     # Set up working dir to save files and logs.
-    cfg.work_dir = f'./stas_base_test{id}'
+    cfg.work_dir = f'./{args.save_dir}{args.id}'
 
     # The original learning rate (LR) is set for 8-GPU training.
     # We divide it by 8 since we only use one GPU.
@@ -133,4 +134,9 @@ def procedure(id=0):
     train_detector(model, datasets, cfg, distributed=False, validate=True)
 
 if __name__ == '__main__':
-    procedure()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--id", type=int, default=0)
+    parser.add_argument("--save_dir", type=str, default="stas_swin")
+    parser.add_argument("--resize", type=str, default="850")
+    args = parser.parse_args()
+    procedure(args)
