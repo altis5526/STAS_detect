@@ -6,3 +6,5 @@ addict==2.4.0
 tqdm==4.62.1
 terminaltables
 pycocotools
+ensemble-boxes
+pandas
