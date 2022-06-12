@@ -141,7 +141,7 @@ def testing(args):
     model.cfg = cfg
     dir = "./STAS_dataset/Test_Images"
     files = os.listdir(dir)
-    checkpoint = load_checkpoint(model, f"./stas_base_resize0/epoch_1.pth")
+    checkpoint = load_checkpoint(model, args.checkpoint)
     load_state_dict(model, checkpoint)
 
     dictionary = {}
