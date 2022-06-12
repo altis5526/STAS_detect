@@ -38,7 +38,7 @@ STAS_detect
              |(放所有的測試圖片檔)
          
 ```
-### 執行
+### 開始訓練
 ```
 python train_swin.py
 ```
