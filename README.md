@@ -38,6 +38,13 @@ STAS_detect
              |(放所有的測試圖片檔)
          
 ```
+### 執行
+```
+python train_swin.py
+```
+* `--id` (int): 選擇使用哪一個子資料集當成驗證資料集(預設為0)
+* `--save_dir` (str): 輸入儲存weight和訓練過程的資料夾(預設為"stas_swin")
+* `--resize` (str): 選擇resize大小，只有900、850兩種選擇(預設為"850")
 
 
          
