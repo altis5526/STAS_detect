@@ -4,7 +4,7 @@
 ## 安裝設定與環境版本 (Linux)
 ### 環境
 * python == 3.8
-* pytorch == 1.10.0
+* pytorch container version == 21.08
 * CUDA == 11.4
 
 ### 套件
