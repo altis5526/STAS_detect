@@ -15,3 +15,30 @@ pip install mmcv-full==1.3.9 -f https://download.openmmlab.com/mmcv/dist/cu114/t
 ```
 
 ## 使用方式
+### 資料集儲存路徑
+```
+STAS_detect
+|___ STAS_DATASET
+         train0.txt
+         train1.txt
+         train2.txt
+         train3.txt
+         train4.txt
+         valid0.txt
+         valid1.txt
+         valid2.txt
+         valid3.txt
+         valid4.txt
+         |___training
+             |___Train_Annotations
+                 |(放所有的偵測框label .txt檔)
+             |___Train_Images
+                 |(放所有的訓練圖片檔)
+         |___Test_Images
+             |(放所有的測試圖片檔)
+         
+```
+
+
+         
+     
