@@ -72,6 +72,4 @@ python wbf.py
 
 ### 參考資料
 * 程式碼修改自 https://github.com/SwinTransformer/Swin-Transformer-Object-Detection
-
-         
      
