@@ -60,7 +60,7 @@ python test_swin.py
 * `--save_vis` (str): 輸入資料夾名稱以儲存畫出bounding box的圖片結果(預設為"result")
 * `--output` (str): 輸出json檔的檔名(預設為"result.json")
 
-<b>亦可直接下載我們Private Leaderboard最高分數的權重(https://drive.google.com/drive/folders/1Px6YLB6oK-8q0MnemUeMzCWT_AUPG6wI?usp=sharing)作為checkpoint，以重現結果</b>
+<b>亦可直接下載我們Private Leaderboard最高分數的權重(https://drive.google.com/drive/folders/1Px6YLB6oK-8q0MnemUeMzCWT_AUPG6wI?usp=sharing) 作為checkpoint，以重現結果</b>
 
 ### Ensemble
 ```
